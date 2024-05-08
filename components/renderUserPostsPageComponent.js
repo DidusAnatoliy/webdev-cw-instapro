@@ -45,7 +45,7 @@ export function renderUserPostsPageComponent ({appEl}) {
               </strong>
             </p>
           </div>
-          <button class="delete-button" data-id="${post.id}" data-user-id="${post.user.id}">Удалить пост</button>
+          
         </div>
         <p class="post-text">
           <span class="user-name">${post.user.name}</span>

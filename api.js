@@ -24,9 +24,12 @@ export function getPosts({ token }) {
     });
 }
 
-export function getUserPosts({ userId }) {
+export function getUserPosts({ token,userId }) {
   return fetch(postsHost + "/user-posts/" + userId, {
     metod: "GET",
+    headers: {
+      Authorization: token,
+    },
   })
     .then((response) => {
       return response.json();
@@ -86,7 +89,11 @@ export function sendPost({ description, imageUrl }) {
   return fetch("https://wedev-api.sky.pro/api/v1/anatoliy-didus/instapro", {
     method: "POST",
     body: JSON.stringify({
-      description: description,
+      description: description
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;"),
       imageUrl: imageUrl
     }),
     headers: {

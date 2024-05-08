@@ -17,7 +17,7 @@ import {
 } from "./helpers.js";
 
 import { renderUserPostsPageComponent } from "./components/renderUserPostsPageComponent.js";
-import { cliсkLike } from "./components/click-like-component.js";
+// import { cliсkLike } from "./components/click-like-component.js";
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
@@ -138,6 +138,7 @@ const renderApp = () => {
     // appEl.innerHTML = "Здесь будет страница фотографий пользователя";
     return renderUserPostsPageComponent({
       appEl,
+      posts,
     });
   }
 };

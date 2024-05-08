@@ -1,13 +1,17 @@
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage } from "../index.js";
-// import { cliсkLike } from "./click-like-component.js";
-import { postLike, postDisLike, deletePost } from "../api.js";
-import { USER_POSTS_PAGE } from "../routes.js";
+import { cliсkLike } from "./click-like-component.js";
+// import { formatDistance } from "date-fns";
+// import { ru } from 'date-fns/locale'
 
 export function renderUserPostsPageComponent ({appEl}) {
   const appHtml = `
   <div class="page-container">
     <div class="header-container"></div>
+    <div class="post-header" data-user-id="${posts[0].user.id}">
+      <img src="${posts[0].user.imageUrl}" class="posts-user-header__user-image">
+      <p class="posts-user-header__user-name">${posts[0].user.name}</p>
+    </div>
     <ul class="posts"></ul>
   </div>`;
 
@@ -15,6 +19,8 @@ export function renderUserPostsPageComponent ({appEl}) {
 
   console.log("Актуальный список постов:", posts);
   const allPosts = posts.map((post) => {
+    // const currentDate = new Date;
+    // const createDate = formatDistance(new Date(post.createdAt), currentDate, {locale: ru})
     return `                  
       <li class="post">
         <div class="post-header" data-user-id="${post.user.id}">
@@ -52,39 +58,7 @@ export function renderUserPostsPageComponent ({appEl}) {
   }).join('');
 
   document.querySelector(".posts").innerHTML = allPosts
-
-  /**
-   * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
-   * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
-   */
-
-  const cliсkLike = () => {
-    const likeButtons = document.querySelectorAll(".like-button");
-    for (const likeButton of likeButtons) {
-      likeButton.addEventListener('click', () => {
-        let id = likeButton.dataset.postId;
-        console.log(id)
-        likeButton.dataset.isLiked === "true" ?
-          postDisLike({ id })
-            .then((responseData) => {
-              console.log(responseData)
-              likeButton.innerHTML =
-                `<img src="./assets/images/like-not-active.svg">`
-              console.log("Актуальный список постов:", posts);
-              // goToPage(USER_POSTS_PAGE);
-            })
-          :
-          postLike({ id })
-            .then((responseData) => {
-              console.log(responseData)
-              likeButton.innerHTML =
-                `<img src="./assets/images/like-active.svg">`
-              console.log("Актуальный список постов:", posts);
-              // goToPage(USER_POSTS_PAGE);
-            })
-      })
-    }
-  }
+  
   cliсkLike();
 
   renderHeaderComponent({

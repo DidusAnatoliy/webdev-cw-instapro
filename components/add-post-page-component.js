@@ -7,6 +7,7 @@ import { renderUploadImageComponent } from "./upload-image-component.js";
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
   let isLoginMode = true;
   let imageUrl = "";
+  
   const render = () => {
     // TODO: Реализовать страницу добавления поста
     const appHtml = `

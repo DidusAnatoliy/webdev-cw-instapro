@@ -17,7 +17,7 @@ import {
 } from "./helpers.js";
 
 import { renderUserPostsPageComponent } from "./components/renderUserPostsPageComponent.js";
-
+import { cliсkLike } from "./components/click-like-component.js";
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
@@ -143,3 +143,4 @@ const renderApp = () => {
 };
 
 goToPage(POSTS_PAGE);
+  

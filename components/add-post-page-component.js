@@ -17,9 +17,9 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
       <div class="form-inputs">
         <div class="upload-image-container">
           <div class="upload-image">
-          <div class="new-foto " id="new-foto"></div>
-          <label class="file-upload-label secondary-button" id="selection-foto">
-            <input type="file" id="image-input" style="display:none" >
+            <div class="new-foto " id="new-foto"></div>
+            <label class="file-upload-label secondary-button" id="selection-foto">
+              <input type="file" id="image-input" style="display:none" >
               Выберите фото
             </label>
           </div>
@@ -37,8 +37,8 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     appEl.innerHTML = appHtml;
 
 
-
     const uploadImageContainer = appEl.querySelector(".upload-image-container");
+
 
     if (uploadImageContainer) {
       renderUploadImageComponent({
@@ -57,19 +57,21 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
           alert("Не заполнено описание фото");
           return;
         }
-
+  
         if (!imageUrl) {
           alert("Не выбрана фотография");
           return;
         }
-
+  
         sendPost({
           description: document.querySelector('.input').value,
           imageUrl: imageUrl,
         }).then(() => {
           onAddPostClick();
         })
+
       }
+
     });
   };
 

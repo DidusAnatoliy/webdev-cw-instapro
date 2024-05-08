@@ -1,8 +1,8 @@
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage } from "../index.js";
 import { cliсkLike } from "./click-like-component.js";
-// import { formatDistance } from "date-fns";
-// import { ru } from 'date-fns/locale'
+import { formatDistanceToNow } from "date-fns";
+import { ru } from 'date-fns/locale';
 
 export function renderUserPostsPageComponent ({appEl}) {
   const appHtml = `
@@ -19,8 +19,6 @@ export function renderUserPostsPageComponent ({appEl}) {
 
   console.log("Актуальный список постов:", posts);
   const allPosts = posts.map((post) => {
-    // const currentDate = new Date;
-    // const createDate = formatDistance(new Date(post.createdAt), currentDate, {locale: ru})
     return `                  
       <li class="post">
         <div class="post-header" data-user-id="${post.user.id}">
@@ -52,7 +50,7 @@ export function renderUserPostsPageComponent ({appEl}) {
           ${post.description}
         </p>
         <p class="post-date">
-          19 минут назад
+          ${formatDistanceToNow(new Date(post.createdAt), {addSuffix:true,locale:ru})}
         </p>
       </li>`
   }).join('');

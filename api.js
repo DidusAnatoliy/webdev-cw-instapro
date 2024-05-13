@@ -5,11 +5,11 @@ const personalKey = "anatoliy-didus";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 
-export function getPosts({ token }) {
+export function getPosts() {
   return fetch(postsHost, {
     method: "GET",
     headers: {
-      Authorization: token,
+      Authorization: getToken(),
     },
   })
     .then((response) => {
@@ -24,11 +24,11 @@ export function getPosts({ token }) {
     });
 }
 
-export function getUserPosts({ token,userId }) {
+export function getUserPosts(userId) {
   return fetch(postsHost + "/user-posts/" + userId, {
-    metod: "GET",
+    method: "GET",
     headers: {
-      Authorization: token,
+      Authorization: getToken(),
     },
   })
     .then((response) => {
@@ -49,12 +49,13 @@ export function registerUser({ login, password, name, imageUrl }) {
       name,
       imageUrl,
     }),
-  }).then((response) => {
-    if (response.status === 400) {
-      throw new Error("Такой пользователь уже существует");
-    }
-    return response.json();
-  });
+  })
+    .then((response) => {
+      if (response.status === 400) {
+        throw new Error("Такой пользователь уже существует");
+      }
+      return response.json();
+    });
 }
 
 export function loginUser({ login, password }) {
@@ -64,81 +65,83 @@ export function loginUser({ login, password }) {
       login,
       password,
     }),
-  }).then((response) => {
-    if (response.status === 400) {
-      throw new Error("Неверный логин или пароль");
-    }
-    return response.json();
-  });
+  })
+    .then((response) => {
+      if (response.status === 400) {
+        throw new Error("Неверный логин или пароль");
+      }
+      return response.json();
+    });
 }
 
 // Загружает картинку в облако, возвращает url загруженной картинки
-export function uploadImage({ file }) {
+export function uploadImage(file) {
   const data = new FormData();
   data.append("file", file);
 
   return fetch(baseHost + "/api/upload/image", {
     method: "POST",
     body: data,
-  }).then((response) => {
-    return response.json();
-  });
+  })
+    .then((response) => {
+      return response.json();
+    });
 }
 
-export function sendPost({ description, imageUrl }) {
+export function sendPost(description, imageUrl) {
   return fetch("https://wedev-api.sky.pro/api/v1/anatoliy-didus/instapro", {
     method: "POST",
     body: JSON.stringify({
-      description: description
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;"),
+      description: description.sanitize(),
       imageUrl: imageUrl
     }),
     headers: {
       Authorization: getToken(),
     }
-  }).then((response) => {
-    return response.json();
-  }).then(() => {
-    console.log("отправлено");
   })
+    .then((response) => {
+      return response.json();
+    })
+    .then(() => {
+      console.log("отправлено");
+    })
 }
 
 //Поставить лайк
-
-export function postLike({ id }) {
+export function postLike(id) {
   return fetch(postsHost + "/" + id + "/like", {
     method: "POST",
     headers: {
       Authorization: getToken(),
     }
-  }).then((response) => {
-    return response.json();
   })
+    .then((response) => {
+      return response.json();
+    })
 }
 
 //Убрать лайк
-export function postDisLike({ id }) {
+export function postDisLike(id) {
   return fetch(postsHost + "/" + id + "/dislike", {
     method: "POST",
     headers: {
       Authorization: getToken(),
     }
-  }).then((response) => {
-    return response.json();
   })
+    .then((response) => {
+      return response.json();
+    })
 }
 
 // Удалить пост
-export function deletePost({ id }) {
+export function deletePost(id) {
   return fetch(postsHost + "/" + id, {
     method: "DELETE",
     headers: {
       Authorization: getToken(),
     }
-  }).then((response) => {
-    return response.json();
   })
+    .then((response) => {
+      return response.json();
+    })
 }

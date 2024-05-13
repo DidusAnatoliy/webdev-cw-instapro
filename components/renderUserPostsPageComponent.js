@@ -1,10 +1,8 @@
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
-import { cliсkLike } from "./click-like-component.js";
-import { formatDistanceToNow } from "date-fns";
-import { ru } from 'date-fns/locale';
+import { posts } from "../index.js";
+import { clickLike } from "./click-like-component.js";
 
-export function renderUserPostsPageComponent ({appEl}) {
+export function renderUserPostsPageComponent(appEl) {
   const appHtml = `
   <div class="page-container">
     <div class="header-container"></div>
@@ -21,26 +19,21 @@ export function renderUserPostsPageComponent ({appEl}) {
   const allPosts = posts.map((post) => {
     return `                  
       <li class="post">
-        <div class="post-header" data-user-id="${post.user.id}">
-            <img src="${post.user.imageUrl}" class="post-header__user-image">
-            <p class="post-header__user-name">${post.user.name}</p>
-        </div>
         <div class="post-image-container">
           <img class="post-image" src=${post.imageUrl}>
         </div>
         <div class="post-bottom">
           <div class="post-likes">
-            <button data-post-id="${post.id}" data-is-liked="${post.isLiked}" class="like-button" >
+            <button data-post-id="${post.id}" data-is-liked="${post.isLiked}" class="like-button">
               ${post.isLiked
-                ?`<img src="./assets/images/like-active.svg">`
-                :`<img src="./assets/images/like-not-active.svg">`}
+                ?`<img src="./assets/images/like-active.svg" alt="heart">`
+                :`<img src="./assets/images/like-not-active.svg" alt="heart">`}
             </button>
             <p class="post-likes-text">
-              Нравится: <strong>${post.likes.length < 2 
+              Нравится: ${post.likes.length < 2 
                 ? `<strong>${0 === post.likes.length ? "0" : post.likes.map((({name: post})=>post)).join(", ")}</strong>` 
-                : `<strong>${post.likes[Math.floor(Math.random() * post.likes.length)].name}</strong>
-                и <strong>еще ${(post.likes.length - 1).toString()}</strong>`}
-              </strong>
+                : `<strong>${post.likes.getJustOneRandom().name}</strong>
+                и <strong>еще ${(post.likes.length - 1)}</strong>`}
             </p>
           </div>
           
@@ -50,14 +43,14 @@ export function renderUserPostsPageComponent ({appEl}) {
           ${post.description}
         </p>
         <p class="post-date">
-          ${formatDistanceToNow(new Date(post.createdAt), {addSuffix:true,locale:ru})}
+          ${new Date(post.createdAt).print()}
         </p>
       </li>`
   }).join('');
 
   document.querySelector(".posts").innerHTML = allPosts
   
-  cliсkLike();
+  clickLike();
 
   renderHeaderComponent({
     element: document.querySelector(".header-container"),

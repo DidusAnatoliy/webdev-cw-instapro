@@ -2,7 +2,7 @@ import { loginUser, registerUser } from "../api.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
 
-export function renderAuthPageComponent({ appEl, setUser }) {
+export function renderAuthPageComponent(appEl, onSetUser) {
   let isLoginMode = true;
   let imageUrl = "";
 
@@ -94,7 +94,7 @@ export function renderAuthPageComponent({ appEl, setUser }) {
           password: password,
         })
           .then((user) => {
-            setUser(user.user);
+            onSetUser(user.user);
           })
           .catch((error) => {
             console.warn(error);
@@ -130,7 +130,7 @@ export function renderAuthPageComponent({ appEl, setUser }) {
           imageUrl,
         })
           .then((user) => {
-            setUser(user.user);
+            onSetUser(user.user);
           })
           .catch((error) => {
             console.warn(error);

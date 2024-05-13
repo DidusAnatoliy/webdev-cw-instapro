@@ -1,15 +1,13 @@
 import { sendPost } from "../api.js";
-
 import { renderHeaderComponent } from "./header-component.js";
-
 import { renderUploadImageComponent } from "./upload-image-component.js";
 
-export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
+
+export function renderAddPostPageComponent(appEl, onAddPostClick) {
   let isLoginMode = true;
   let imageUrl = "";
   
   const render = () => {
-    // TODO: Реализовать страницу добавления поста
     const appHtml = `
     <div class="page-container">
       <div class="header-container"></div>
@@ -26,7 +24,7 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
           </div>
         </div>
         <label>
-          Опишите фотoграфию:
+          Опишите фотографию:
           <textarea class="input textarea" rows="4" id="textarea-input"></textarea>
         </label>
         <button class="button" id="add-button">Добавить</button>
@@ -63,13 +61,13 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
           alert("Не выбрана фотография");
           return;
         }
+
+        const element = document.querySelector('.input').value
   
-        sendPost({
-          description: document.querySelector('.input').value,
-          imageUrl: imageUrl,
-        }).then(() => {
-          onAddPostClick();
-        })
+        sendPost(element, imageUrl)
+          .then(() => {
+            onAddPostClick();
+          })
 
       }
 

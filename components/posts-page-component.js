@@ -33,7 +33,7 @@ export function renderPostsPageComponent(appEl) {
             </button>
             <p class="post-likes-text">
               Нравится: ${post.likes.length < 2
-        ? `<strong>${0 === post.likes.length ? "0" : post.likes.map((likeInfo) => likeInfo.name).join(", ")}</strong>`
+        ? `<strong>${0 === post.likes.length ? "0" : post.likes.map((likeInfo) => likeInfo.name.sanitize()).join(", ")}</strong>`
         : `<strong>${post.likes.getJustOneRandom().name.sanitize()}</strong>
                 и <strong>еще ${(post.likes.length - 1)}</strong>`}
             </p>
